@@ -1,0 +1,32 @@
+version: "3"
+
+networks:
+  vault-network:
+
+services:
+    vault:
+        image: vault
+        volumes:
+            - ./file:/vault/file:rw
+            - ./config:/vault/config:rw
+        ports:
+            - "8200:8200"
+        cap_add: 
+            - IPC_LOCK
+        networks:
+            - vault-network
+
+    vault-app:
+        build:
+            context: ../SpringVaultDemo
+            dockerfile: Dockerfile
+        ports:
+            - "8080:8080"
+        networks:
+            - vault-network
+        depends_on:
+          - vault
+        environment:
+            VAULT_HOST: vault
+            VAULT_TOKEN: YOUR_TOKEN
+            SPRING_PROFILES_ACTIVE: test

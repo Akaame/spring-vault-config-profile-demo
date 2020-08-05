@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: springvaultdemo
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:default}
+
+spring.cloud.vault:
+  host: ${VAULT_HOST:localhost}
+  port: ${VAULT_PORT:8200}
+  token: ${VAULT_TOKEN}
+  scheme: http
+  kv:
+    enabled: true
+    backend: springvaultdemo
+    backend-version: 2
+    application-name: springvaultdemo
